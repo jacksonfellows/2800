@@ -1,0 +1,39 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{utils}
+
+\usepackage{amsthm}
+\usepackage{amsmath}
+
+\providecommand{\implies}{}
+\renewcommand{\implies}{\Rightarrow}
+\newcommand{\twowayimplies}{\Leftrightarrow}
+
+\theoremstyle{remark}
+\newtheorem{case}{Case}
+\newtheorem{subcase}{Case}[case]
+
+\gdef\author{Jackson Fellows --- jf787}
+
+\newcommand{\class}[2]{
+  \gdef\classnumber{#1}
+  \gdef\classname{#2}
+}
+\newcommand{\homework}[2]{\gdef\title{Homework #1: #2}}
+\newcommand{\due}[1]{\gdef\duedate{#1}}
+
+\renewcommand{\maketitle}{
+  \setlength\parindent{0in}
+  \addtolength\parskip{1ex}
+  \setlength\fboxrule{.5mm}\setlength{\fboxsep}{1.2mm}
+  \fbox{
+    \parbox{\textwidth}{
+      \begin{center}
+        \large\textbf{\title}\\
+        \ \\
+        \classnumber \hfill \author\\
+        \classname \hfill Due \duedate\\
+      \end{center}
+    }
+  }
+  \bigskip
+}
