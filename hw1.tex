@@ -1,0 +1,221 @@
+\documentclass{article}
+
+\usepackage{amsthm}
+\usepackage{amsmath}
+
+\providecommand{\implies}{}
+\renewcommand{\implies}{\Rightarrow}
+\newcommand{\twowayimplies}{\Leftrightarrow}
+
+\theoremstyle{remark}
+\newtheorem{case}{Case}
+\newtheorem{subcase}{Case}[case]
+
+\gdef\author{Jackson Fellows --- jf787}
+
+\newcommand{\class}[2]{
+  \gdef\classnumber{#1}
+  \gdef\classname{#2}
+}
+\newcommand{\homework}[2]{\gdef\title{Homework #1: #2}}
+\newcommand{\due}[1]{\gdef\duedate{#1}}
+
+\renewcommand{\maketitle}{
+  \setlength\parindent{0in}
+  \addtolength\parskip{1ex}
+  \setlength\fboxrule{.5mm}\setlength{\fboxsep}{1.2mm}
+  \fbox{
+    \parbox{\textwidth}{
+      \begin{center}
+        \large\textbf{\title}\\
+        \ \\
+        \classnumber \hfill \author\\
+        \classname \hfill Due \duedate\\
+      \end{center}
+    }
+  }
+  \bigskip
+}
+
+\begin{document}
+
+\class{CS2800}{Discrete Structures}
+\homework{1}{Proofs and Logic}
+\due{February 2}
+\maketitle
+
+\begin{enumerate}
+\item
+  The proof given does not prove what is intended by the question (that the arithmetic mean of two numbers is at least as large as their geometric mean).
+  Instead, it simply shows that starting with the proposition that the arithmetic mean is at least as large as the geometric mean, we can arrive at the trivially true proposition $(a - b)^2 > 0$.
+  That is, it is a proof that $\frac{a + b}{2} \ge \sqrt{ab} \implies (a - b)^2 > 0$, which is not very useful.
+  To actually prove the statement in question, we need to start with the true proposition and end with what we want to prove.
+  \begin{proof}
+    Let $a$ and $b$ be non-negative real numbers.
+    Then
+    \begin{align*}
+      (a - b)^2 &\ge 0, &\mbox{which implies that}\\
+      a^2 - 2ab + b^2 &\ge 0, &\mbox{which implies that}\\
+      a^2 + 2ab + b^2 &\ge 4ab, &\mbox{which implies that}\\
+      a + b &\ge 2\sqrt{ab}, &\mbox{which implies that}\\
+      \frac{a + b}{2} &\ge \sqrt{ab}.
+    \end{align*}
+  \end{proof}
+  Since we started with a self-evidently true statement, this proves that the arithmetic mean is at least as large as the geometric mean.
+  Note that the step where we took the square root of each side of the inequality relies on the stated assumption that $a$ and $b$ are non-negative, since this means that both sides of the inequality are guaranteed to be positive.
+\item
+  Let $a$ and $b$ be real numbers.
+  \begin{enumerate}
+  \item
+    We want to prove that if $n = \frac{a + b}{2}$ then $a$ or $b$ are at most $n$.
+    \begin{proof}
+      We will prove the contrapositive that if $a$ and $b$ are greater than $n$ then $n \ne \frac{a + b}{2}$.
+      Given $a > n$ and $b > n$, it follows that $a + b > 2n$.
+      From the above, it follows that $\frac{a + b}{2} > n$.
+      $n$ cannot equal something greater than itself, so $n \ne \frac{a + b}{2}$.
+    \end{proof}
+  \item
+    We want to prove that $\left|a + b\right| \leq \left|a\right| + \left|b\right|$.
+    \begin{proof}
+      We will use a proof by cases.
+      \begin{case}[Both $a$ and $b$ are positive]
+        If $a$ and $b$ are positive, then $\left|a + b\right| = a + b$, $\left|a\right| = a$, and $\left|b\right| = b$.
+        Therefore, the conditional in question reduces to $a + b \leq a + b$ which is true since both sides are equal.
+      \end{case}
+      \begin{case}[Either $a$ or $b$ is negative]
+        Let's say that $a$ is negative and $b$ is positive.
+        Then we can assume that $a = -k$ where $k$ is a positive number.
+        Now, $\left|a\right| = k$ and $\left|b\right| = b$.
+        To simplify $\left|a + b\right|$ we need a new case for whether or not $b$ is greater than or equal to $k$.
+        \begin{subcase}[$b$ is greater than or equal to $k$]
+          In this case, $\left|a + b\right| = \left|b - k\right| = b - k$.
+          Now we have $b - k \leq k + b$.
+          This simplifies to $-k \leq k$ which is always true for positive $k$.
+        \end{subcase}
+        \begin{subcase}[$b$ is less than $k$]
+          In this case, $\left|a + b\right| = \left|b - k\right| = k - b$.
+          Now we have $k - b \leq k + b$.
+          This simplifies to $-b \leq b$ which is always true for positive $b$.
+        \end{subcase}
+      \end{case}
+      \begin{case}[Both $a$ and $b$ are negative]
+        We can assume that $a = -k$ and $b = -l$ where $k$ and $l$ are positive numbers.
+        Now, $\left|a + b\right| = \left|-k - l\right| = k + l$, $\left|a\right| = k$, and $\left|b\right| = l$.
+        The conditional now simplifies to $k + l \leq k + l$ which is true since both sides are equal.
+      \end{case}
+    \end{proof}
+  \end{enumerate}
+\item
+  \begin{enumerate}
+  \item
+    We want to prove that every odd integer can be written as the difference of two perfect squares.
+    \begin{proof}
+      Consider two consecutive perfect squares $n^2$ and $(n+1)^2$ for an integer $n$.
+      Their difference is $(n+1)^2 - n^2 = n^2 + 2n + 1 - n^2 = 2n + 1$.
+      Since every odd number can be written as $2k + 1$ for an integer $k$, every odd number can be written as the difference of two perfect squares.
+    \end{proof}
+  \item
+    We want to prove that there exist even integers that can be written as the difference of two perfect squares, and that there also exist even integers that cannot.
+    \begin{proof}
+      Consider the two arbitrary perfect squares $n^2$ and $(n + j)^2$ for the integers $n$ and $j$.
+      Their difference is $(n + j)^2 - n^2 = n^2 + 2nj + j^2 - n^2 = 2nj + j^2 = j(2n + j)$.
+      For this expression to be even $j$ must be even.
+      Then $j = 2k$.
+      Now, $j(2n + j) = 2k(2n + 2k) = 4kn + 4k^2 = 4k(m + 1)$.
+      Since $k$ and $m$ are integers, this means that the only even differences of perfect squares are multiples of 4.
+      Therefore, some even integers (multiples of 4) can be written as the difference of perfect squares, while some (those that are not multiples of 4) cannot.
+    \end{proof}
+  \item
+    \begin{enumerate}
+    \item
+      $\exists n.\ E(n) \land D(n)$.
+      This statement is true.
+      \begin{proof}
+        Take $n = 8$.
+        $3^2 - 1^2 = 9 - 1 = 8$.
+        Therefore there exists an $n$ which is even and a difference of two perfect squares.
+      \end{proof}
+    \item
+      $\exists n.\ E(n) \land \neg D(n)$.
+      This statement is true.
+      \begin{proof}
+        In part b we proved that the only even integers that are the difference of perfect squares are multiples of 4.
+        Therefore, if we take $n = 2$ we have an even number which is also not the difference of two perfect squares.
+      \end{proof}
+    \item
+      $\forall n.\ E(n) \implies \neg D(n)$.
+      This statement is false.
+      \begin{proof}
+        We have already shown above that there exists an $n$ which is both even and a difference of two perfect squares.
+        Therefore, it cannot be true that for all even integers $n$ that $n$ is not the difference of two perfect squares.
+      \end{proof}
+    \item
+      $\forall n.\ \neg E(n) \implies D(n)$.
+      This statement is true.
+      \begin{proof}
+        In part a we proved that every odd integer could be written as the difference of two perfect squares.
+        Therefore, the fact that $n$ is odd does imply that $n$ is the difference of two perfect squares.
+      \end{proof}
+    \item
+      $\forall n.\ \neg E(n) \twowayimplies D(n)$.
+      This statement is false.
+      \begin{proof}
+        To prove this statement we must prove both that $\neg E(n) \implies D(n)$ (which we just proved above) and that $D(n) \implies \neg E(n)$.
+        This second implication cannot be true because as we have proven above there do exist even integers which are differences of two perfect squares.
+      \end{proof}
+    \end{enumerate}
+  \end{enumerate}
+\item
+  \begin{enumerate}
+  \item
+    \begin{displaymath}
+      \begin{array}{|c|c|c|c|c|c|}
+        \hline
+        Q & P & P \implies Q & Q \land (P \implies Q) & (Q \land (P \implies Q)) \implies P\\
+        \hline
+        T & T & T & T & T\\
+        T & F & T & T & F\\
+        F & T & F & F & T\\
+        F & F & T & F & T\\
+        \hline
+      \end{array}
+    \end{displaymath}
+    This is not a tautology.
+  \item
+    \begin{displaymath}
+      \begin{array}{|c|c|c|c|c|c|c|c|}
+        \hline
+        Q & P & \neg Q & P \implies Q & \neg Q \land (P \implies Q) & \neg P & (\neg Q \land (P \implies Q)) \implies \neg P\\
+        \hline
+        T & T & F & T & F & F & T\\
+        T & F & F & T & F & T & T\\
+        F & T & T & F & F & F & T\\
+        F & F & T & T & T & T & T\\
+        \hline
+      \end{array}
+    \end{displaymath}
+    This is a tautology.
+  \item
+    \begin{displaymath}
+      \makeatletter
+      \hspace*{-6.25cm}         % bad
+      \makeatother
+      \begin{array}{|c|c|c|c|c|c|c|c|c|c|}
+        \hline
+        P & Q & R & P \implies Q & Q \implies R & R \implies P & (P \implies Q) \land (Q \implies R) \land (R \implies P) & P \land Q \land R & ((P \implies Q) \land (Q \implies R) \land (R \implies P)) \implies (P \land Q \land R)\\
+        \hline
+        T & T & T & T & T & T & T & T & T\\
+        T & T & F & T & F & T & F & F & T\\
+        T & F & T & F & T & T & F & F & T\\
+        T & F & F & F & T & T & F & F & T\\
+        F & T & T & T & T & F & F & F & T\\
+        F & T & F & T & F & T & F & F & T\\
+        F & F & T & T & T & F & F & F & T\\
+        F & F & F & T & T & T & T & F & F\\
+        \hline
+      \end{array}
+    \end{displaymath}
+    This is not a tautology.
+  \end{enumerate}
+\end{enumerate}
+\end{document}
